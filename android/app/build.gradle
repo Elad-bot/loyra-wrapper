@@ -1,0 +1,95 @@
+// Module: android/app/build.gradle
+
+apply plugin: 'com.android.application'
+
+android {
+    namespace "com.eperom_ep.fyndo"
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.eperom_ep.fyndo"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Keep default ignores but allow typical modern web assets
+        aaptOptions {
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+
+    // ✅ SIGNING: expects keystore at android/app/keystore/fyndo-release.jks
+    signingConfigs {
+        release {
+            // Path is relative to this module (android/app)
+            storeFile file("$projectDir/keystore/fyndo-release.jks")
+            // Read from CI env vars; fallback to gradle.properties if present
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: (project.findProperty("KEYSTORE_PASSWORD") ?: "")
+            keyAlias "fyndo_release"
+            keyPassword System.getenv("KEY_PASSWORD") ?: (project.findProperty("KEY_PASSWORD") ?: "")
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        debug {
+            // default debug signing is fine
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // ✅ Use the release signing config so the APK is **signed**
+            signingConfig signingConfigs.release
+        }
+    }
+
+    // ✅ Produce a single universal APK (no splits)
+    bundle { language { enableSplit = false } }
+    splits {
+        abi { enable false }
+        density { enable false }
+    }
+
+    // Java toolchain (no Kotlin block)
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+
+    implementation project(':capacitor-cordova-android-plugins')
+    implementation 'com.onesignal:OneSignal:[5,6)'
+}
+
+// Keep Capacitor’s extra build logic
+apply from: 'capacitor.build.gradle'
+
+// Apply Google Services plugin only if google-services.json exists
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

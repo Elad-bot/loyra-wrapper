@@ -1,0 +1,12 @@
+{
+  "appId": "com.eperom_ep.fyndo",
+  "appName": "Fyndo",
+  "webDir": "noop",
+  "server": {
+    "url": "https://fyndo.eperom.com",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

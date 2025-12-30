@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "416691402533",
+    "project_id": "fyndo-f1b6c",
+    "storage_bucket": "fyndo-f1b6c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416691402533:android:0a6060091377a1f4784ccc",
+        "android_client_info": {
+          "package_name": "com.eperom_ep.fyndo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUVEHuY-3NkZoN2x6S8agSEtiRp_AgizY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
