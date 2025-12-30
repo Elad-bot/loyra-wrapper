@@ -1,9 +1,9 @@
 {
-  "appId": "com.eperom_ep.Loyra",
+  "appId": "com.eperom_ep.loyra",
   "appName": "Loyra",
   "webDir": "noop",
   "server": {
-    "url": "https://Loyra.eperom.com",
+    "url": "https://loyra.eperom.com",
     "cleartext": false
   },
   "android": {
