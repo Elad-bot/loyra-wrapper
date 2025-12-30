@@ -1,9 +1,9 @@
 {
-  "appId": "com.eperom_ep.fyndo",
-  "appName": "Fyndo",
+  "appId": "com.eperom_ep.Loyra",
+  "appName": "Loyra",
   "webDir": "noop",
   "server": {
-    "url": "https://fyndo.eperom.com",
+    "url": "https://Loyra.eperom.com",
     "cleartext": false
   },
   "android": {
